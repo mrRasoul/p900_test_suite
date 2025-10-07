@@ -1,0 +1,3 @@
+2025-10-06 16:19:16,680 - Main - INFO - Starting ISOLATED RTT test...
+2025-10-06 16:19:16,680 - Main - INFO - System: Linux
+2025-10-06 16:19:16,680 - Main - INFO - Using ports: Master=/dev/ttyUSB0, Slave=/dev/ttyUSB1

@@ -1,0 +1,16 @@
+# Core dependencies
+pyserial>=3.5
+numpy>=1.20.0
+matplotlib>=3.3.0
+
+# MAVLink dependencies
+pymavlink>=2.4.0        # برای تست‌های low-level
+mavsdk>=1.4.0          # برای شبیه‌سازی realistic
+
+# Async support
+asyncio-mqtt>=0.16.0   # اختیاری
+aiofiles>=0.8.0        # اختیاری
+
+# Testing
+pytest>=7.0.0
+pytest-asyncio>=0.21.0

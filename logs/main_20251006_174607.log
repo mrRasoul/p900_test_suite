@@ -1,0 +1,6 @@
+2025-10-06 17:46:07,789 - Main - INFO - Starting ISOLATED RTT test...
+2025-10-06 17:46:07,790 - Main - INFO - System: Linux
+2025-10-06 17:46:07,790 - Main - INFO - Using ports: Master=/dev/ttyUSB0, Slave=/dev/ttyUSB1
+2025-10-06 17:47:10,962 - Main - INFO - Test completed. Loss rate: 100.0%
+2025-10-06 17:47:11,071 - Main - INFO - 📊 Random size mode enabled with realistic distribution
+2025-10-06 17:47:11,071 - Main - INFO - 🚁 MAVLink payload mode enabled

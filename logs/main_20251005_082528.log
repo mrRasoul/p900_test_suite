@@ -1,0 +1,4 @@
+2025-10-05 08:25:28,580 - Main - INFO - Starting ISOLATED RTT test...
+2025-10-05 08:25:28,580 - Main - INFO - System: Linux
+2025-10-05 08:25:28,580 - Main - INFO - Using ports: Master=/dev/ttyUSB0, Slave=/dev/ttyUSB1
+2025-10-05 08:25:28,581 - Main - ERROR - Failed to connect to ports
