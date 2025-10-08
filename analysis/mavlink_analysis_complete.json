@@ -1,0 +1,400 @@
+{
+  "distribution": {
+    "tiny": {
+      "probability": 0.2934,
+      "range": [
+        0,
+        25
+      ],
+      "count": 1780,
+      "percentage": 29.34
+    },
+    "small": {
+      "probability": 0.2088,
+      "range": [
+        25,
+        40
+      ],
+      "count": 1267,
+      "percentage": 20.88
+    },
+    "medium": {
+      "probability": 0.4063,
+      "range": [
+        40,
+        50
+      ],
+      "count": 2465,
+      "percentage": 40.63
+    },
+    "large": {
+      "probability": 0.0096,
+      "range": [
+        50,
+        60
+      ],
+      "count": 58,
+      "percentage": 0.96
+    },
+    "xlarge": {
+      "probability": 0.0819,
+      "range": [
+        60,
+        280
+      ],
+      "count": 497,
+      "percentage": 8.19
+    }
+  },
+  "statistics": {
+    "total_packets": 6067,
+    "unique_message_types": 27,
+    "min_size": 13,
+    "max_size": 82,
+    "mean_size": 34.69,
+    "median_size": 39.97,
+    "std_dev": 15.77
+  },
+  "top_messages": [
+    {
+      "msg_id": 30,
+      "type": "ATTITUDE",
+      "size": 40.0,
+      "count": 1721,
+      "frequency_hz": 5.736031551102547,
+      "total_bytes": 68840
+    },
+    {
+      "msg_id": 42,
+      "type": "MISSION_CURRENT",
+      "size": 13.0,
+      "count": 1250,
+      "frequency_hz": 9.542724609071318,
+      "total_bytes": 16250
+    },
+    {
+      "msg_id": 33,
+      "type": "GLOBAL_POSITION_INT",
+      "size": 39.97033158813264,
+      "count": 573,
+      "frequency_hz": 1.9118798640550503,
+      "total_bytes": 22903
+    },
+    {
+      "msg_id": 74,
+      "type": "VFR_HUD",
+      "size": 30.95633187772926,
+      "count": 458,
+      "frequency_hz": 1.5294079919957053,
+      "total_bytes": 14178
+    },
+    {
+      "msg_id": 0,
+      "type": "HEARTBEAT",
+      "size": 21.0,
+      "count": 300,
+      "frequency_hz": 1.0000693285518423,
+      "total_bytes": 6300
+    },
+    {
+      "msg_id": 83,
+      "type": "ATTITUDE_TARGET",
+      "size": 48.0,
+      "count": 229,
+      "frequency_hz": 0.7647318271232677,
+      "total_bytes": 10992
+    },
+    {
+      "msg_id": 340,
+      "type": "MSG_340",
+      "size": 82.0,
+      "count": 150,
+      "frequency_hz": 0.5000461297587978,
+      "total_bytes": 12300
+    },
+    {
+      "msg_id": 24,
+      "type": "GPS_RAW_INT",
+      "size": 61.0,
+      "count": 115,
+      "frequency_hz": 0.38233011624608215,
+      "total_bytes": 7015
+    },
+    {
+      "msg_id": 141,
+      "type": "ALTITUDE",
+      "size": 44.0,
+      "count": 115,
+      "frequency_hz": 0.382325925134931,
+      "total_bytes": 5060
+    },
+    {
+      "msg_id": 36,
+      "type": "SERVO_OUTPUT_RAW",
+      "size": 32.0,
+      "count": 115,
+      "frequency_hz": 0.3822989225852395,
+      "total_bytes": 3680
+    }
+  ],
+  "high_frequency_messages": [
+    {
+      "msg_id": 42,
+      "type": "MISSION_CURRENT",
+      "size": 13.0,
+      "count": 1250,
+      "frequency_hz": 9.542724609071318,
+      "total_bytes": 16250
+    },
+    {
+      "msg_id": 30,
+      "type": "ATTITUDE",
+      "size": 40.0,
+      "count": 1721,
+      "frequency_hz": 5.736031551102547,
+      "total_bytes": 68840
+    },
+    {
+      "msg_id": 33,
+      "type": "GLOBAL_POSITION_INT",
+      "size": 39.97033158813264,
+      "count": 573,
+      "frequency_hz": 1.9118798640550503,
+      "total_bytes": 22903
+    },
+    {
+      "msg_id": 74,
+      "type": "VFR_HUD",
+      "size": 30.95633187772926,
+      "count": 458,
+      "frequency_hz": 1.5294079919957053,
+      "total_bytes": 14178
+    },
+    {
+      "msg_id": 76,
+      "type": "COMMAND_LONG",
+      "size": 44.75,
+      "count": 4,
+      "frequency_hz": 1.4848303054282574,
+      "total_bytes": 179
+    }
+  ],
+  "all_messages": [
+    {
+      "msg_id": 30,
+      "type": "ATTITUDE",
+      "size": 40.0,
+      "count": 1721,
+      "frequency_hz": 5.736031551102547,
+      "total_bytes": 68840
+    },
+    {
+      "msg_id": 24,
+      "type": "GPS_RAW_INT",
+      "size": 61.0,
+      "count": 115,
+      "frequency_hz": 0.38233011624608215,
+      "total_bytes": 7015
+    },
+    {
+      "msg_id": 33,
+      "type": "GLOBAL_POSITION_INT",
+      "size": 39.97033158813264,
+      "count": 573,
+      "frequency_hz": 1.9118798640550503,
+      "total_bytes": 22903
+    },
+    {
+      "msg_id": 74,
+      "type": "VFR_HUD",
+      "size": 30.95633187772926,
+      "count": 458,
+      "frequency_hz": 1.5294079919957053,
+      "total_bytes": 14178
+    },
+    {
+      "msg_id": 83,
+      "type": "ATTITUDE_TARGET",
+      "size": 48.0,
+      "count": 229,
+      "frequency_hz": 0.7647318271232677,
+      "total_bytes": 10992
+    },
+    {
+      "msg_id": 141,
+      "type": "ALTITUDE",
+      "size": 44.0,
+      "count": 115,
+      "frequency_hz": 0.382325925134931,
+      "total_bytes": 5060
+    },
+    {
+      "msg_id": 36,
+      "type": "SERVO_OUTPUT_RAW",
+      "size": 32.0,
+      "count": 115,
+      "frequency_hz": 0.3822989225852395,
+      "total_bytes": 3680
+    },
+    {
+      "msg_id": 0,
+      "type": "HEARTBEAT",
+      "size": 21.0,
+      "count": 300,
+      "frequency_hz": 1.0000693285518423,
+      "total_bytes": 6300
+    },
+    {
+      "msg_id": 340,
+      "type": "MSG_340",
+      "size": 82.0,
+      "count": 150,
+      "frequency_hz": 0.5000461297587978,
+      "total_bytes": 12300
+    },
+    {
+      "msg_id": 230,
+      "type": "ESTIMATOR_STATUS",
+      "size": 54.0,
+      "count": 58,
+      "frequency_hz": 0.19112243261387432,
+      "total_bytes": 3132
+    },
+    {
+      "msg_id": 85,
+      "type": "MSG_85",
+      "size": 63.0,
+      "count": 11,
+      "frequency_hz": 0.5831928101090684,
+      "total_bytes": 693
+    },
+    {
+      "msg_id": 241,
+      "type": "VIBRATION",
+      "size": 32.0,
+      "count": 12,
+      "frequency_hz": 0.03819357011671106,
+      "total_bytes": 384
+    },
+    {
+      "msg_id": 32,
+      "type": "LOCAL_POSITION_NED",
+      "size": 40.0,
+      "count": 114,
+      "frequency_hz": 0.38231229837396385,
+      "total_bytes": 4560
+    },
+    {
+      "msg_id": 245,
+      "type": "MSG_245",
+      "size": 14.0,
+      "count": 114,
+      "frequency_hz": 0.3823179940180052,
+      "total_bytes": 1596
+    },
+    {
+      "msg_id": 1,
+      "type": "SYS_STATUS",
+      "size": 43.0,
+      "count": 114,
+      "frequency_hz": 0.3823158444690636,
+      "total_bytes": 4902
+    },
+    {
+      "msg_id": 8,
+      "type": "MSG_8",
+      "size": 43.0,
+      "count": 114,
+      "frequency_hz": 0.3823158496430244,
+      "total_bytes": 4902
+    },
+    {
+      "msg_id": 242,
+      "type": "MSG_242",
+      "size": 68.0,
+      "count": 57,
+      "frequency_hz": 0.1910943278483528,
+      "total_bytes": 3876
+    },
+    {
+      "msg_id": 77,
+      "type": "COMMAND_ACK",
+      "size": 22.0,
+      "count": 40,
+      "frequency_hz": 0.23243284561846939,
+      "total_bytes": 880
+    },
+    {
+      "msg_id": 147,
+      "type": "BATTERY_STATUS",
+      "size": 61.0,
+      "count": 57,
+      "frequency_hz": 0.1910863790710341,
+      "total_bytes": 3477
+    },
+    {
+      "msg_id": 4,
+      "type": "MSG_4",
+      "size": 21.0,
+      "count": 30,
+      "frequency_hz": 0.10000613710075622,
+      "total_bytes": 630
+    },
+    {
+      "msg_id": 62,
+      "type": "NAV_CONTROLLER_OUTPUT",
+      "size": 36.93577981651376,
+      "count": 109,
+      "frequency_hz": 0.3818617443552756,
+      "total_bytes": 4026
+    },
+    {
+      "msg_id": 231,
+      "type": "MSG_231",
+      "size": 44.0,
+      "count": 54,
+      "frequency_hz": 0.19094685536282832,
+      "total_bytes": 2376
+    },
+    {
+      "msg_id": 87,
+      "type": "POSITION_TARGET_GLOBAL_INT",
+      "size": 63.0,
+      "count": 107,
+      "frequency_hz": 0.38189835394922206,
+      "total_bytes": 6741
+    },
+    {
+      "msg_id": 44,
+      "type": "MSG_44",
+      "size": 13.0,
+      "count": 2,
+      "frequency_hz": 0.03638328333668574,
+      "total_bytes": 26
+    },
+    {
+      "msg_id": 42,
+      "type": "MISSION_CURRENT",
+      "size": 13.0,
+      "count": 1250,
+      "frequency_hz": 9.542724609071318,
+      "total_bytes": 16250
+    },
+    {
+      "msg_id": 76,
+      "type": "COMMAND_LONG",
+      "size": 44.75,
+      "count": 4,
+      "frequency_hz": 1.4848303054282574,
+      "total_bytes": 179
+    },
+    {
+      "msg_id": 46,
+      "type": "MSG_46",
+      "size": 13.0,
+      "count": 44,
+      "frequency_hz": 0.6457330280620069,
+      "total_bytes": 572
+    }
+  ]
+}

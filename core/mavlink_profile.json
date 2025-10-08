@@ -1,0 +1,67 @@
+{
+  "name": "Real MAVLink Traffic Profile",
+  "description": "Profile based on actual MAVLink traffic capture",
+  "size_distribution": {
+    "tiny": {
+      "probability": 0.2934,
+      "min_bytes": 0,
+      "max_bytes": 25
+    },
+    "small": {
+      "probability": 0.2088,
+      "min_bytes": 25,
+      "max_bytes": 40
+    },
+    "medium": {
+      "probability": 0.4063,
+      "min_bytes": 40,
+      "max_bytes": 50
+    },
+    "large": {
+      "probability": 0.0096,
+      "min_bytes": 50,
+      "max_bytes": 60
+    },
+    "xlarge": {
+      "probability": 0.0819,
+      "min_bytes": 60,
+      "max_bytes": 280
+    }
+  },
+  "common_messages": {
+    "ATTITUDE": {
+      "size": 40.0,
+      "frequency_hz": 5.74,
+      "weight": 0.2837
+    },
+    "MISSION_CURRENT": {
+      "size": 13.0,
+      "frequency_hz": 9.54,
+      "weight": 0.206
+    },
+    "GLOBAL_POSITION_INT": {
+      "size": 39.97033158813264,
+      "frequency_hz": 1.91,
+      "weight": 0.0944
+    },
+    "VFR_HUD": {
+      "size": 30.95633187772926,
+      "frequency_hz": 1.53,
+      "weight": 0.0755
+    },
+    "HEARTBEAT": {
+      "size": 21.0,
+      "frequency_hz": 1.0,
+      "weight": 0.0494
+    }
+  },
+  "statistics": {
+    "total_packets": 6067,
+    "unique_message_types": 27,
+    "min_size": 13,
+    "max_size": 82,
+    "mean_size": 34.69,
+    "median_size": 39.97,
+    "std_dev": 15.77
+  }
+}

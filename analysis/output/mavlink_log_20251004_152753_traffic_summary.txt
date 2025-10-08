@@ -1,0 +1,29 @@
+MAVLink Traffic Summary - 2025-10-04T15:27:53.472319
+============================================================
+[ 30] ATTITUDE                       Count: 1721 AvgSize:40.0 Freq:5.74Hz
+[ 24] GPS_RAW_INT                    Count:  115 AvgSize:61.0 Freq:0.38Hz
+[ 33] GLOBAL_POSITION_INT            Count:  573 AvgSize:40.0 Freq:1.91Hz
+[ 74] VFR_HUD                        Count:  458 AvgSize:31.0 Freq:1.53Hz
+[ 83] ATTITUDE_TARGET                Count:  229 AvgSize:48.0 Freq:0.76Hz
+[141] ALTITUDE                       Count:  115 AvgSize:44.0 Freq:0.38Hz
+[ 36] SERVO_OUTPUT_RAW               Count:  115 AvgSize:32.0 Freq:0.38Hz
+[  0] HEARTBEAT                      Count:  300 AvgSize:21.0 Freq:1.00Hz
+[340] MSG_340                        Count:  150 AvgSize:82.0 Freq:0.50Hz
+[230] ESTIMATOR_STATUS               Count:   58 AvgSize:54.0 Freq:0.19Hz
+[ 85] MSG_85                         Count:   11 AvgSize:63.0 Freq:0.58Hz
+[241] VIBRATION                      Count:   12 AvgSize:32.0 Freq:0.04Hz
+[ 32] LOCAL_POSITION_NED             Count:  114 AvgSize:40.0 Freq:0.38Hz
+[245] MSG_245                        Count:  114 AvgSize:14.0 Freq:0.38Hz
+[  1] SYS_STATUS                     Count:  114 AvgSize:43.0 Freq:0.38Hz
+[  8] MSG_8                          Count:  114 AvgSize:43.0 Freq:0.38Hz
+[242] MSG_242                        Count:   57 AvgSize:68.0 Freq:0.19Hz
+[ 77] COMMAND_ACK                    Count:   40 AvgSize:22.0 Freq:0.23Hz
+[147] BATTERY_STATUS                 Count:   57 AvgSize:61.0 Freq:0.19Hz
+[  4] MSG_4                          Count:   30 AvgSize:21.0 Freq:0.10Hz
+[ 62] NAV_CONTROLLER_OUTPUT          Count:  109 AvgSize:36.9 Freq:0.38Hz
+[231] MSG_231                        Count:   54 AvgSize:44.0 Freq:0.19Hz
+[ 87] POSITION_TARGET_GLOBAL_INT     Count:  107 AvgSize:63.0 Freq:0.38Hz
+[ 44] MSG_44                         Count:    2 AvgSize:13.0 Freq:0.04Hz
+[ 42] MISSION_CURRENT                Count: 1250 AvgSize:13.0 Freq:9.54Hz
+[ 76] COMMAND_LONG                   Count:    4 AvgSize:44.8 Freq:1.48Hz
+[ 46] MSG_46                         Count:   44 AvgSize:13.0 Freq:0.65Hz
