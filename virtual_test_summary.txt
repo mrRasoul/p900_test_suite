@@ -1,0 +1,30 @@
+P900 Network Performance Test Results
+============================================================
+
+BASELINE (No Traffic):
+  Average RTT: 0.42 ms
+  Packet Loss: 0.0%
+  Jitter: 0.11 ms
+
+LIGHT TRAFFIC:
+  Bandwidth: 5432 bytes/sec
+  Average RTT: 0.40 ms
+  Packet Loss: 0.0%
+  Jitter: 0.10 ms
+
+MEDIUM TRAFFIC:
+  Bandwidth: 22100 bytes/sec
+  Average RTT: 0.41 ms
+  Packet Loss: 0.0%
+  Jitter: 0.11 ms
+
+HEAVY TRAFFIC:
+  Bandwidth: 27543 bytes/sec
+  Average RTT: 0.42 ms
+  Packet Loss: 0.0%
+  Jitter: 0.10 ms
+
+CORRELATION ANALYSIS:
+  Bandwidth-RTT Correlation: -0.072
+  RTT Increase: 0.0%
+  Max RTT at: 0 bytes/sec

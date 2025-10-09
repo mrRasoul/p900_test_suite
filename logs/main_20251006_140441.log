@@ -1,4 +1,0 @@
-2025-10-06 14:04:42,310 - Main - INFO - Starting ISOLATED RTT test...
-2025-10-06 14:04:42,310 - Main - INFO - System: Linux
-2025-10-06 14:04:42,310 - Main - INFO - Using ports: Master=/dev/ttyUSB0, Slave=/dev/ttyUSB1
-2025-10-06 14:05:05,719 - Main - INFO - Test completed. Loss rate: 0.0%

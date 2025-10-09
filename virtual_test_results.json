@@ -1,0 +1,125 @@
+{
+  "baseline": {
+    "duration": 30,
+    "total_probes": 300,
+    "received_probes": 300,
+    "lost_probes": 0,
+    "loss_rate": 0.0,
+    "avg_rtt_ms": 0.42459586336008215,
+    "min_rtt_ms": 0.2433320005366113,
+    "max_rtt_ms": 0.6884919994263328,
+    "std_rtt_ms": 0.10037473390775563,
+    "avg_jitter_ms": 0.10926467892198444,
+    "percentile_95_ms": 0.5960777502878045,
+    "percentile_99_ms": 0.6231794599898421
+  },
+  "traffic_light": {
+    "scenario": "light",
+    "target_bandwidth": 5760,
+    "actual_bandwidth": 5431.850218439906,
+    "duration": 30,
+    "traffic_packets_sent": 5045,
+    "traffic_bytes_sent": 168556,
+    "probe_total": 311,
+    "probe_received": 311,
+    "probe_lost": 0,
+    "loss_rate": 0.0,
+    "avg_rtt_ms": 0.39778036015614315,
+    "min_rtt_ms": 0.19737599996005883,
+    "max_rtt_ms": 0.7462529993063072,
+    "std_rtt_ms": 0.08981726998202308,
+    "avg_jitter_ms": 0.09963209353548835,
+    "percentile_95_ms": 0.5520224999600032,
+    "percentile_99_ms": 0.6122320998656503
+  },
+  "traffic_medium": {
+    "scenario": "medium",
+    "target_bandwidth": 28800,
+    "actual_bandwidth": 22099.948410413315,
+    "duration": 30,
+    "traffic_packets_sent": 20817,
+    "traffic_bytes_sent": 685791,
+    "probe_total": 311,
+    "probe_received": 311,
+    "probe_lost": 0,
+    "loss_rate": 0.0,
+    "avg_rtt_ms": 0.40975048876520703,
+    "min_rtt_ms": 0.18919099966296926,
+    "max_rtt_ms": 0.8866970001690788,
+    "std_rtt_ms": 0.10159393299973367,
+    "avg_jitter_ms": 0.11202608389911832,
+    "percentile_95_ms": 0.5841739998686535,
+    "percentile_99_ms": 0.6347288000142723
+  },
+  "traffic_heavy": {
+    "scenario": "heavy",
+    "target_bandwidth": 51840,
+    "actual_bandwidth": 27542.591857081396,
+    "duration": 30,
+    "traffic_packets_sent": 25845,
+    "traffic_bytes_sent": 854671,
+    "probe_total": 311,
+    "probe_received": 311,
+    "probe_lost": 0,
+    "loss_rate": 0.0,
+    "avg_rtt_ms": 0.4150512250814049,
+    "min_rtt_ms": 0.18708000061451457,
+    "max_rtt_ms": 1.3915939998696558,
+    "std_rtt_ms": 0.10433240108273903,
+    "avg_jitter_ms": 0.10389450000084546,
+    "percentile_95_ms": 0.5585199996858137,
+    "percentile_99_ms": 0.6288311999014695
+  },
+  "correlation": {
+    "bandwidth_rtt_correlation": -0.07166845018254149,
+    "bandwidth_jitter_correlation": 0.1345368635484542,
+    "bandwidth_loss_correlation": NaN,
+    "rtt_increase_percent": 0.0,
+    "max_rtt_at_bandwidth": 0,
+    "data_points": {
+      "bandwidths": [
+        0,
+        5431.850218439906,
+        22099.948410413315,
+        27542.591857081396
+      ],
+      "rtts": [
+        0.42459586336008215,
+        0.39778036015614315,
+        0.40975048876520703,
+        0.4150512250814049
+      ],
+      "jitters": [
+        0.10926467892198444,
+        0.09963209353548835,
+        0.11202608389911832,
+        0.10389450000084546
+      ],
+      "losses": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "summary": {
+    "timestamp": "2025-10-09T11:06:11.815391",
+    "test_configuration": {
+      "master_port": "/dev/pts/5",
+      "slave_port": "/dev/pts/6",
+      "scenarios_tested": [
+        "light",
+        "medium",
+        "heavy"
+      ]
+    },
+    "key_findings": {
+      "baseline_rtt_ms": 0.42459586336008215,
+      "rtt_increase_percent": 0.0,
+      "bandwidth_rtt_correlation": -0.07166845018254149,
+      "worst_case_scenario": "heavy",
+      "worst_case_rtt_ms": 0.4150512250814049
+    }
+  }
+}

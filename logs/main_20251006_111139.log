@@ -1,4 +1,0 @@
-2025-10-06 11:11:39,389 - Main - INFO - Starting ISOLATED RTT test...
-2025-10-06 11:11:39,389 - Main - INFO - System: Linux
-2025-10-06 11:11:39,389 - Main - INFO - Using ports: Master=/dev/ttyS31, Slave=/dev/ttyS30
-2025-10-06 11:11:39,390 - Main - ERROR - Failed to connect to ports

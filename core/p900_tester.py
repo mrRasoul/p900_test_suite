@@ -740,8 +740,8 @@ class P900NetworkTesterEnhanced:
 def main():
     """تابع اصلی برنامه"""
     # پارامترهای قابل تنظیم
-    MASTER_PORT = "COM5"   # پورت متصل به رادیو Master
-    SLAVE_PORT = "COM6"    # پورت متصل به رادیو Slave
+    MASTER_PORT = "/dev/pts/6"   # پورت متصل به رادیو Master
+    SLAVE_PORT = "/dev/pts/8"    # پورت متصل به رادیو Slave
     NUM_PACKETS = 100
     INTERVAL_MS = 100
     OUTPUT_PREFIX = f"p900_rtt_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
