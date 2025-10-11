@@ -108,6 +108,10 @@ project/
 ```bash
     python analysis/echo.py /dev/ttyUSB1
 ```
+
+# block.html (Run locally !!! ):
+<img width="1286" height="928" alt="image" src="https://github.com/user-attachments/assets/372f604b-a441-411a-8da9-87d14ef031ec" />
+
 این اسکریپت به سادگی هر داده‌ای که دریافت کند را بازمی‌گرداند.
 
 3.  **اجرای اسکریپت تست:**
@@ -144,4 +148,3 @@ python core/mavsdk_simulator.py
 
 امیدوارم این مستندات به شما در درک بهتر پروژه و توسعه آینده آن کمک کند!
 
-`
