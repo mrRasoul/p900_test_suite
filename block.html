@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P900 RTT Testing Suite - Complete Architecture & Flow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            overflow-x: auto;
+        }
+        
+        .tab {
+            padding: 15px 30px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #6c757d;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .tab:hover {
+            color: #495057;
+            background: rgba(108, 117, 125, 0.1);
+        }
+        
+        .tab.active {
+            color: #667eea;
+            background: white;
+            box-shadow: 0 2px 0 #667eea inset;
+        }
+        
+        .content {
+            padding: 30px;
+            min-height: 900px;
+        }
+        
+        .view {
+            display: none;
+        }
+        
+        .view.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        svg {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        
+        .legend-color {
+            width: 30px;
+            height: 20px;
+            border-radius: 4px;
+            border: 1px solid rgba(0,0,0,0.2);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .info-card {
+            background: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .info-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .info-card .icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
+        
+        .info-card ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .info-card li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f3f4;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-card li:last-child {
+            border-bottom: none;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .status-active { background: #28a745; }
+        .status-waiting { background: #ffc107; }
+        .status-error { background: #dc3545; }
+        .status-info { background: #17a2b8; }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        
+        .highlight-python { color: #66d9ef; }
+        .highlight-string { color: #a6e22e; }
+        .highlight-number { color: #ae81ff; }
+        .highlight-comment { color: #75715e; }
+        
+        .flow-step {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .flow-step h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .flow-step p {
+            color: #495057;
+            line-height: 1.6;
+        }
+        
+        .dataflow-diagram {
+            background: #f8f9fa;
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+        
+        .dataflow-section {
+            margin: 25px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .dataflow-section h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .arrow-down {
+            text-align: center;
+            font-size: 24px;
+            color: #667eea;
+            margin: 15px 0;
+        }
+        
+        @media (max-width: 768px) {
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 P900 RTT Testing Suite</h1>
+            <p>Complete Architecture, Execution Flow & Technical Details</p>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="showView('overview')">📊 Overview</button>
+            <button class="tab" onclick="showView('architecture')">🏗️ Architecture</button>
+            <button class="tab" onclick="showView('execution')">⚡ Execution Flow</button>
+            <button class="tab" onclick="showView('components')">🔧 Components Detail</button>
+            <button class="tab" onclick="showView('dataflow')">📡 Data Flow</button>
+            <button class="tab" onclick="showView('sequence')">🔄 Sequence Diagram</button>
+        </div>
+        
+        <div class="content">
+            <!-- Overview View -->
+            <div id="overview" class="view active">
+                <h2 style="margin-bottom: 20px; color: #333;">System Overview - High Level Architecture</h2>
+                
+                <svg viewBox="0 0 1400 900" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                        </linearGradient>
+                        <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+                        </linearGradient>
+                        <linearGradient id="grad3" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#4facfe;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#00f2fe;stop-opacity:1" />
+                        </linearGradient>
+                        <filter id="shadow">
+                            <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.2"/>
+                        </filter>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#333" />
+                        </marker>
+                    </defs>
+                    
+                    <!-- Title -->
+                    <text x="700" y="40" font-size="28" font-weight="bold" text-anchor="middle" fill="#333">P900 RTT Testing System Overview</text>
+                    
+                    <!-- User Layer -->
+                    <g id="user-layer">
+                        <rect x="50" y="100" width="1300" height="120" fill="#f0f4ff" stroke="#667eea" stroke-width="2" rx="10" filter="url(#shadow)"/>
+                        <text x="700" y="130" font-size="20" font-weight="bold" text-anchor="middle" fill="#667eea">User Interface Layer</text>
+                        
+                        <rect x="100" y="150" width="200" height="50" fill="white" stroke="#667eea" stroke-width="1" rx="5"/>
+                        <text x="200" y="180" font-size="14" text-anchor="middle">Command Line Interface</text>
+                        
+                        <rect x="350" y="150" width="200" height="50" fill="white" stroke="#667eea" stroke-width="1" rx="5"/>
+                        <text x="450" y="180" font-size="14" text-anchor="middle">Configuration Files</text>
+                        
+                        <rect x="600" y="150" width="200" height="50" fill="white" stroke="#667eea" stroke-width="1" rx="5"/>
+                        <text x="700" y="180" font-size="14" text-anchor="middle">Test Scenarios</text>
+                        
+                        <rect x="850" y="150" width="200" height="50" fill="white" stroke="#667eea" stroke-width="1" rx="5"/>
+                        <text x="950" y="180" font-size="14" text-anchor="middle">Python Scripts</text>
+                        
+                        <rect x="1100" y="150" width="200" height="50" fill="white" stroke="#667eea" stroke-width="1" rx="5"/>
+                        <text x="1200" y="180" font-size="14" text-anchor="middle">REST API (Future)</text>
+                    </g>
+                    
+                    <!-- Application Layer -->
+                    <g id="app-layer">
+                        <rect x="50" y="250" width="1300" height="200" fill="#fff5f5" stroke="#f5576c" stroke-width="2" rx="10" filter="url(#shadow)"/>
+                        <text x="700" y="280" font-size="20" font-weight="bold" text-anchor="middle" fill="#f5576c">Application Layer</text>
+                        
+                        <!-- Main Controller -->
+                        <rect x="100" y="310" width="280" height="110" fill="url(#grad2)" stroke="#d63384" stroke-width="2" rx="8"/>
+                        <text x="240" y="340" font-size="16" font-weight="bold" text-anchor="middle" fill="white">P900Tester</text>
+                        <text x="240" y="360" font-size="12" text-anchor="middle" fill="white">Main Orchestrator</text>
+                        <text x="240" y="380" font-size="10" text-anchor="middle" fill="white">• Scenario Management</text>
+                        <text x="240" y="395" font-size="10" text-anchor="middle" fill="white">• Test Execution</text>
+                        <text x="240" y="410" font-size="10" text-anchor="middle" fill="white">• Result Collection</text>
+                        
+                        <!-- Component Integrator -->
+                        <rect x="420" y="310" width="280" height="110" fill="#e1bee7" stroke="#8e24aa" stroke-width="2" rx="8"/>
+                        <text x="560" y="340" font-size="16" font-weight="bold" text-anchor="middle">ComponentIntegrator</text>
+                        <text x="560" y="360" font-size="12" text-anchor="middle">Resource Manager</text>
+                        <text x="560" y="380" font-size="10" text-anchor="middle">• Serial Port Management</text>
+                        <text x="560" y="395" font-size="10" text-anchor="middle">• Component Lifecycle</text>
+                        <text x="560" y="410" font-size="10" text-anchor="middle">• Thread Coordination</text>
+                        
+                        <!-- Analyzer -->
+                        <rect x="740" y="310" width="280" height="110" fill="#c5cae9" stroke="#3f51b5" stroke-width="2" rx="8"/>
+                        <text x="880" y="340" font-size="16" font-weight="bold" text-anchor="middle">ResultAnalyzer</text>
+                        <text x="880" y="360" font-size="12" text-anchor="middle">Data Processing</text>
+                        <text x="880" y="380" font-size="10" text-anchor="middle">• Statistical Analysis</text>
+                        <text x="880" y="395" font-size="10" text-anchor="middle">• RTT Calculation & Histogram Generation</text>
+                        <text x="880" y="410" font-size="10" text-anchor="middle">• Report Export (JSON/PNG/TXT)</text>
+
+                        <!-- Saves results -->
+                        <line x1="1020" y1="365" x2="1100" y2="365" stroke="#f5576c" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        <rect x="1100" y="310" width="220" height="110" fill="#ffe0b2" stroke="#ff9800" stroke-width="2" rx="8"/>
+                        <text x="1210" y="340" font-size="16" font-weight="bold" text-anchor="middle">File I/O Engine</text>
+                        <text x="1210" y="360" font-size="12" text-anchor="middle">Persistence Layer</text>
+                        <text x="1210" y="380" font-size="10" text-anchor="middle">• Results Saving</text>
+                        <text x="1210" y="395" font-size="10" text-anchor="middle">• Plot Export</text>
+                        <text x="1210" y="410" font-size="10" text-anchor="middle">• JSON Summary</text>
+                    </g>
+                    
+                    <!-- Core Layer -->
+                    <g id="core-layer">
+                        <rect x="50" y="480" width="1300" height="280" fill="#f3fcf4" stroke="#28a745" stroke-width="2" rx="10" filter="url(#shadow)"/>
+                        <text x="700" y="510" font-size="20" font-weight="bold" text-anchor="middle" fill="#28a745">Core Layer</text>
+                        
+                        <!-- Probe Injector -->
+                        <rect x="120" y="550" width="250" height="130" fill="url(#grad3)" stroke="#00b894" stroke-width="2" rx="8"/>
+                        <text x="245" y="580" font-size="16" font-weight="bold" text-anchor="middle" fill="white">ProbeInjector</text>
+                        <text x="245" y="600" font-size="12" text-anchor="middle" fill="white">Packet Injection Engine</text>
+                        <text x="245" y="620" font-size="10" text-anchor="middle" fill="white">• Serial Tx/Rx</text>
+                        <text x="245" y="635" font-size="10" text-anchor="middle" fill="white">• Probe Encoding</text>
+                        <text x="245" y="650" font-size="10" text-anchor="middle" fill="white">• Loss Monitoring</text>
+
+                        <!-- Traffic Simulator -->
+                        <rect x="440" y="550" width="250" height="130" fill="url(#grad3)" stroke="#0984e3" stroke-width="2" rx="8"/>
+                        <text x="565" y="580" font-size="16" font-weight="bold" text-anchor="middle" fill="white">TrafficSimulator</text>
+                        <text x="565" y="600" font-size="12" text-anchor="middle" fill="white">Synthetic Load Generator</text>
+                        <text x="565" y="620" font-size="10" text-anchor="middle" fill="white">• MAVLink Traffic</text>
+                        <text x="565" y="635" font-size="10" text-anchor="middle" fill="white">• Variable Bandwidth</text>
+                        <text x="565" y="650" font-size="10" text-anchor="middle" fill="white">• Concurrent Threads</text>
+
+                        <!-- Packet Generator -->
+                        <rect x="760" y="550" width="250" height="130" fill="url(#grad3)" stroke="#6c5ce7" stroke-width="2" rx="8"/>
+                        <text x="885" y="580" font-size="16" font-weight="bold" text-anchor="middle" fill="white">PacketGenerator</text>
+                        <text x="885" y="600" font-size="12" text-anchor="middle" fill="white">Profile-based Packet Builder</text>
+                        <text x="885" y="620" font-size="10" text-anchor="middle" fill="white">• MAVLink Profile JSON</text>
+                        <text x="885" y="635" font-size="10" text-anchor="middle" fill="white">• Randomized Sizes</text>
+                        <text x="885" y="650" font-size="10" text-anchor="middle" fill="white">• Header Encoding</text>
+
+                        <!-- MAVSDK Simulator -->
+                        <rect x="1080" y="550" width="230" height="130" fill="url(#grad3)" stroke="#00cec9" stroke-width="2" rx="8"/>
+                        <text x="1195" y="580" font-size="16" font-weight="bold" text-anchor="middle" fill="white">MAVSDK Simulator</text>
+                        <text x="1195" y="600" font-size="12" text-anchor="middle" fill="white">Virtual UAV Communication</text>
+                        <text x="1195" y="620" font-size="10" text-anchor="middle" fill="white">• MAVLink Socket IO</text>
+                        <text x="1195" y="635" font-size="10" text-anchor="middle" fill="white">• Vehicle Emulation</text>
+                    </g>
+                    
+                    <!-- Hardware Layer -->
+                    <g id="hw-layer">
+                        <rect x="50" y="790" width="1300" height="80" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" rx="10"/>
+                        <text x="700" y="820" font-size="18" font-weight="bold" text-anchor="middle" fill="#2e7d32">Physical Hardware Interface (Serial / RF Link / P900 Modems)</text>
+                    </g>
+
+                    <!-- Lines -->
+                    <line x1="700" y1="220" x2="700" y2="250" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <line x1="700" y1="450" x2="700" y2="480" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <line x1="700" y1="760" x2="700" y2="790" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+                </svg>
+            </div>
+            
+            <!-- Architecture Description -->
+            <div id="architecture" class="view">
+                <h2 style="margin-bottom:20px;color:#333;">🧩 Detailed Software Architecture</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3><div class="icon">1</div> Core Subsystems</h3>
+                        <ul>
+                            <li><div class="status-dot status-active"></div> p900_tester.py – Central orchestration, analysis, logging</li>
+                            <li><div class="status-dot status-info"></div> probe_injector.py – Builds and transmits probes</li>
+                            <li><div class="status-dot status-info"></div> traffic_simulator.py – Generates realistic background MAVLink traffic</li>
+                            <li><div class="status-dot status-info"></div> packet_generator.py – Encodes MAVLink-style packets from profile</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3><div class="icon">2</div> Analysis Modules</h3>
+                        <ul>
+                            <li><div class="status-dot status-info"></div> analyze_distribution.py – Builds MAVLink profile from traffic logs</li>
+                            <li><div class="status-dot status-info"></div> inspect_json.py – Inspects raw traffic stats JSON structures</li>
+                            <li><div class="status-dot status-info"></div> RTT Analyzer – Visualizes one-way/RTT delays</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-card">
+                        <h3><div class="icon">3</div> Testing Utilities</h3>
+                        <ul>
+                            <li><div class="status-dot status-active"></div> p900_new_tester.py – Simplified coordinated runner</li>
+                            <li><div class="status-dot status-info"></div> simple_probe_injector.py – Loopback diagnostic tool</li>
+                            <li><div class="status-dot status-error"></div> debug_serial_loopback.py – Multi-phase hardware integrity test</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Execution Flow -->
+            <div id="execution" class="view">
+                <h2 style="margin-bottom:20px;color:#333;">⚙️ Execution Workflow (End-to-End)</h2>
+                <div class="flow-step">
+                    <h4>1️⃣ Initialization</h4>
+                    <p>Loads configuration (serial ports, baudrate, test scenario). Initializes instances of ProbeInjector, TrafficSimulator, and PacketGenerator.</p>
+                </div>
+                <div class="flow-step">
+                    <h4>2️⃣ Pre-test Setup</h4>
+                    <p>Serial ports opened, test directories created, profile JSON loaded for dynamic size distribution.</p>
+                </div>
+                <div class="flow-step">
+                    <h4>3️⃣ Execution Loop</h4>
+                    <p>
+                        ProbeInjector writes periodic probe packets → waits for echo → timestamps delays.<br/>
+                        In parallel, TrafficSimulator pumps background MAVLink messages.
+                    </p>
+                </div>
+                <div class="flow-step">
+                    <h4>4️⃣ Data Collection</h4>
+                    <p>All delays (forward, return, RTT, asymmetry, jitter) accumulated into structured Measurement objects.</p>
+                </div>
+                <div class="flow-step">
+                    <h4>5️⃣ Analysis Phase</h4>
+                    <p>p900_tester.get_statistics() computes mean/median/min/max/stddev and percentiles. Statistical charts generated using Matplotlib.</p>
+                </div>
+                <div class="flow-step">
+                    <h4>6️⃣ Report Generation</h4>
+                    <p>Outputs .txt summary, .json structured results, and .png visual analytical charts. These artifacts summarize measured network conditions.</p>
+                </div>
+            </div>
+            
+            <!-- Components -->
+            <div id="components" class="view">
+                <h2 style="margin-bottom:20px;color:#333;">🧠 Core Components Breakdown</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3><div class="icon">🧩</div> ProbeInjector</h3>
+                        <p>Responsible for timestamping send/receive probes, managing serial communication, and packet validation. Ensures forward and return delay capture.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3><div class="icon">📦</div> PacketGenerator</h3>
+                        <p>Uses MAVLink profile-based distributions to generate realistic packet sizes and types, ensuring authenticity of simulated traffic.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3><div class="icon">🔄</div> TrafficSimulator</h3>
+                        <p>Creates concurrent streams of data transmission to emulate congestion conditions; supports adjustable load levels (baseline, medium, heavy).</p>
+                    </div>
+                    <div class="info-card">
+                        <h3><div class="icon">📈</div> p900_tester</h3>
+                        <p>Central manager that runs full test lifecycle, aggregates all metrics, performs statistical analysis, and generates human-readable reports.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Data Flow - ENHANCED VERSION -->
+            <div id="dataflow" class="view">
+                <h2 style="margin-bottom:20px;color:#333;">📡 Detailed Data Flow Analysis</h2>
+                
+                <div class="dataflow-diagram">
+                    <div class="dataflow-section">
+                        <h3><span class="icon">1️⃣</span> Configuration & Initialization Phase</h3>
+                        <pre class="code-block">
+<span class="highlight-comment"># Step 1: Load Configuration</span>
+<span class="highlight-python">config_loader.py</span> → reads test_config.json
+    ├── Serial port paths (e.g., /dev/ttyUSB0, /dev/ttyUSB1)
+    ├── Baudrate (57600 or 115200)
+    ├── Test scenarios (baseline, medium, heavy traffic)
+    └── Profile path (mavlink_profile.json)
+
+<span class="highlight-comment"># Step 2: Load MAVLink Profile</span>
+<span class="highlight-python">mavlink_profile.py</span> → parses distribution data
+    ├── Message type probabilities
+    ├── Size distributions (tiny: 0-25, small: 25-40, etc.)
+    └── Common message patterns (ATTITUDE, HEARTBEAT, GPS_RAW)</span></pre>
+                    </div>
+
+                    <div class="arrow-down">⬇️</div>
+
+                    <div class="dataflow-section">
+                        <h3><span class="icon">2️⃣</span> Packet Generation & Traffic Pattern</h3>
+                        <pre class="code-block">
+<span class="highlight-comment"># Step 3: Generate MAVLink-like Packets</span>
+<span class="highlight-python">PacketGenerator</span> instance created
+    ├── <span class="highlight-string">generate_packet_size()</span> → weighted random selection
+    │   └── 70% common messages, 30% random distribution
+    ├── <span class="highlight-string">generate_packet_content(size)</span> → builds byte array
+    │   ├── MAVLink v2 header (0xFD, length, seq, sys_id, comp_id)
+    │   ├── Message ID (randomized based on profile)
+    │   ├── Payload (random bytes matching size)
+    │   └── CRC16 checksum (simulated)
+    └── Returns: <span class="highlight-number">bytes</span> object ready for transmission</span></pre>
+                    </div>
+
+                    <div class="arrow-down">⬇️</div>
+
+                    <div class="dataflow-section">
+                        <h3><span class="icon">3️⃣</span> Probe Packet Structure & Injection</h3>
+                        <pre class="code-block">
+<span class="highlight-comment"># Step 4: Build Probe Packets with Metadata</span>
+<span class="highlight-python">ProbeInjector._build_probe(probe_id)</span>
+    ├── Magic header: <span class="highlight-string">b"PROBE"</span> (5 bytes)
+    ├── Probe ID: <span class="highlight-number">uint32</span> (4 bytes) - unique sequence number
+    ├── Timestamp: <span class="highlight-number">float64</span> (8 bytes) - high precision time
+    ├── Direction: <span class="highlight-number">uint8</span> (1 byte) - 0x01=forward, 0x02=return
+    ├── Padding: variable bytes to reach target size
+    └── Total size: configurable (default 64 bytes)
+
+<span class="highlight-comment"># Step 5: Serial Transmission</span>
+<span class="highlight-python">ProbeInjector._write_probe(probe_data)</span>
+    ├── Acquire serial lock (threading.Lock)
+    ├── <span class="highlight-string">serial_port.write(probe_data)</span>
+    ├── Record send timestamp
+    └── Add to pending_probes dictionary</span></pre>
+                    </div>
+
+                    <div class="arrow-down">⬇️</div>
+
+                    <div class="dataflow-section">
+                        <h3><span class="icon">4️⃣</span> Concurrent Traffic Generation</h3>
+                        <pre class="code-block">
+<span class="highlight-comment"># Step 6: Background Traffic Simulation (Parallel Thread)</span>
+<span class="highlight-python">TrafficSimulator._run()</span> → continuous loop
+    ├── Calculate chunk size based on bandwidth
+    │   └── chunk_size = min(4096, bandwidth/10)
+    ├── Pre-generate data pool (10 random blocks)
+    ├── Main loop:
+    │   ├── Select data from pool[index % 10]
+    │   ├── Acquire write lock (timeout=1ms)
+    │   ├── <span class="highlight-string">serial.write(data[:chunk_size])</span>
+    │   ├── Update statistics (bytes_sent, chunks_sent)
+    │   └── Sleep to maintain target bandwidth
+    └── Bandwidth accuracy: ±5% of target</span></pre>
+                    </div>
+
+                    <div class="arrow-down">⬇️</div>
+
+                    <div class="dataflow-section">
+                        <h3><span class="icon">5️⃣</span> Reception & Echo Processing</h3>
+                        <pre class="code-block">
+<span class="highlight-comment"># Step 7: Receive Thread - Continuous Monitoring</span>
+<span class="highlight-python">ProbeInjector._receive_thread()</span>
+    ├── Read serial buffer continuously
+    ├── Search for probe magic header <span class="highlight-string">b"PROBE"</span>
+    ├── Extract probe metadata:
+    │   ├── Probe ID → match with pending_probes
+    │   ├── Original timestamp → calculate forward delay
+    │   ├── Current timestamp → calculate return delay
+    │   └── Direction flag → verify echo
+    ├── Create Measurement object:
+    │   ├── forward_delay_ms
+    │   ├── return_delay_ms  
+    │   ├── total_rtt_ms
+    │   └── asymmetry_ratio
+    └── Add to results queue</span></pre>
+                    </div>
+
+                    <div class="arrow-down">⬇️</div>
+
+                    <div class="dataflow-section">
+                        <h3><span class="icon">6️⃣</span> Statistical Analysis & Aggregation</h3>
+                        <pre class="code-block">
+<span class="highlight-comment"># Step 8: Real-time Statistics Calculation</span>
+<span class="highlight-python">P900Tester.get_statistics(measurements)</span>
+    ├── Extract arrays: rtts, forward_delays, return_delays
+    ├── Calculate basic stats:
+    │   ├── Mean, Median, StdDev
+    │   ├── Min, Max, Range
+    │   └── Percentiles (P50, P90, P95, P99)
+    ├── Compute derived metrics:
+    │   ├── Jitter (RTT variance)
+    │   ├── Asymmetry ratio
+    │   ├── Packet loss rate
+    │   └── Bandwidth utilization
+    └── Return: Statistics dataclass</span></pre>
+                    </div>
+
+                    <div class="arrow-down">⬇️</div>
+
+                    <div class="dataflow-section">
+                        <h3><span class="icon">7️⃣</span> Visualization & Export</h3>
+                        <pre class="code-block">
+<span class="highlight-comment"># Step 9: Generate Visual Reports</span>
+<span class="highlight-python">P900Tester._create_detailed_plots()</span>
+    ├── RTT Histogram (matplotlib)
+    │   └── Bins, normal distribution overlay
+    ├── Time Series Plot
+    │   └── RTT over time with moving average
+    ├── Forward vs Return Scatter
+    │   └── Asymmetry visualization
+    └── CDF (Cumulative Distribution)
+
+<span class="highlight-comment"># Step 10: Export Results</span>
+<span class="highlight-python">File outputs:</span>
+    ├── <span class="highlight-string">{timestamp}_summary.txt</span> → Human-readable report
+    ├── <span class="highlight-string">{timestamp}_results.json</span> → Structured data
+    ├── <span class="highlight-string">{timestamp}_detailed_analysis.png</span> → Charts
+    └── <span class="highlight-string">{timestamp}_raw_measurements.csv</span> → Raw data</span></pre>
+                    </div>
+                </div>
+
+                <div class="info-grid" style="margin-top: 40px;">
+                    <div class="info-card">
+                        <h3>🔍 Key Data Structures</h3>
+                        <pre class="code-block">
+<span class="highlight-comment"># Measurement Object</span>
+@dataclass
+class Measurement:
+    probe_id: int
+    forward_delay_ms: float
+    return_delay_ms: float
+    total_rtt_ms: float
+    timestamp: float
+    asymmetry_ratio: float
+    
+<span class="highlight-comment"># Statistics Object</span>
+@dataclass
+class Statistics:
+    mean_rtt: float
+    median_rtt: float
+    min_rtt: float
+    max_rtt: float
+    std_dev: float
+    percentiles: Dict[int, float]
+    packet_loss_rate: float</pre>
+                    </div>
+
+                    <div class="info-card">
+                        <h3>⚡ Performance Metrics</h3>
+                        <ul>
+                            <li><strong>Probe Rate:</strong> 10-100 probes/second</li>
+                            <li><strong>Traffic Load:</strong> 0-100 KB/s synthetic</li>
+                            <li><strong>Timing Resolution:</strong> microsecond precision</li>
+                            <li><strong>Buffer Sizes:</strong> 4KB chunks, 64KB total</li>
+                            <li><strong>Thread Count:</strong> 3-4 concurrent threads</li>
+                            <li><strong>Memory Usage:</strong> ~50MB for 10K measurements</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sequence Diagram -->
+            <div id="sequence" class="view">
+                <h2 style="margin-bottom:20px;color:#333;">🔁 Detailed Sequence Diagram</h2>
+                <pre class="code-block">
+<span class="highlight-comment"># Complete Test Execution Sequence</span>
+
+User        P900Tester    ComponentIntegrator    ProbeInjector    TrafficSimulator    SerialPort    P900Hardware
+ │               │                 │                    │                 │                 │             │
+ │ <span class="highlight-string">run_test()</span> ──▶│                 │                    │                 │                 │             │
+ │               │ <span class="highlight-string">initialize()</span> ──▶│                    │                 │                 │             │
+ │               │                 │ <span class="highlight-string">open_ports()</span> ────▶│                 │                 │             │
+ │               │                 │                    │                 │                 │             │
+ │               │                 │ <span class="highlight-string">create_probe()</span> ──▶│                 │                 │             │
+ │               │                 │◀────── <span class="highlight-number">OK</span> ────────│                 │                 │             │
+ │               │                 │                    │                 │                 │             │
+ │               │                 │ <span class="highlight-string">create_traffic()</span> ─────────────────▶│                 │             │
+ │               │                 │◀──────────────── <span class="highlight-number">OK</span> ────────────────│                 │             │
+ │               │                 │                    │                 │                 │             │
+ │               │ <span class="highlight-string">start_test()</span> ──────────────────────▶│                 │                 │             │
+ │               │                 │                    │ <span class="highlight-string">start_rx()</span> ────▶│                 │             │
+ │               │                 │                    │                 │                 │             │
+ │               │                 │                    │                 │ <span class="highlight-string">start()</span> ──────▶│             │
+ │               │                 │                    │                 │ <span class="highlight-string">write(data)</span> ──▶│             │
+ │               │                 │                    │                 │                 │──<span class="highlight-number">MAVLink</span>──▶│
+ │               │                 │                    │                 │                 │             │
+ │               │                 │                    │ <span class="highlight-string">send_probe()</span> ──▶│                 │             │
+ │               │                 │                    │                 │                 │──<span class="highlight-number">PROBE</span>────▶│
+ │               │                 │                    │                 │                 │             │
+ │               │                 │                    │                 │                 │◀─<span class="highlight-number">ECHO</span>─────│
+ │               │                 │                    │◀── <span class="highlight-string">read()</span> ──────│                 │             │
+ │               │                 │                    │ <span class="highlight-string">process_echo()</span> │                 │             │
+ │               │                 │                    │                 │                 │             │
+ │               │◀──── <span class="highlight-string">Measurement{rtt, delays}</span> ─────│                 │                 │             │
+ │               │                 │                    │                 │                 │             │
+ │               │ <span class="highlight-string">analyze()</span> ─────▶ [Statistics Engine]                │                 │             │
+ │               │                 │                    │                 │                 │             │
+ │               │ <span class="highlight-string">save_results()</span> ▶ [File System]    │                 │                 │             │
+ │               │                 │                    │                 │                 │             │
+ │◀── <span class="highlight-number">Report</span> ────└─────────────────────────────────────────────────────────────────────────────────────│
+ │                                                                                                           │
+</pre>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showView(name) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelector('.tab[onclick="showView(\'' + name + '\')"]').classList.add('active');
+            document.getElementById(name).classList.add('active');
+        }
+    </script>
+</body>
